@@ -72,8 +72,10 @@ export async function recommendWithAI(a: Answers): Promise<Recommendation> {
     prompt,
     output: Output.object({ schema }),
     temperature: 0.4,
-    maxRetries: 1,
-    abortSignal: AbortSignal.timeout(15000),
+    maxRetries: 0,
+    // Keep "thinking" to a minimum: a quiz result should arrive in a few seconds.
+    providerOptions: { google: { thinkingConfig: { thinkingLevel: "minimal" } } },
+    abortSignal: AbortSignal.timeout(12000),
   });
 
   if (!output) throw new Error("AI returned no structured output");
