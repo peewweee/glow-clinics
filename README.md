@@ -45,8 +45,9 @@ The sales team spends the first five minutes of every consult call on basic tria
 ### How a recommendation is made
 
 1. **Safety gate, with no AI involved.** If any safety box is ticked, or the free text mentions pregnancy, isotretinoin or an infection, the client is routed to a clinician and no treatment is suggested. I didn't want an AI model making that call.
-2. **AI match.** Gemini gets the treatment menu (each item marked as inside or outside the client's downtime limit) and the answers. It returns a top pick, an optional alternative, the reasons, and short summary labels. It can also raise a safety flag from the free text, for things the keyword check misses.
-3. **Fallback.** With no key, or on any error, the rule-based scorer ranks treatments by concern, downtime and budget, and writes a templated explanation.
+2. **AI match.** Gemini gets the treatment menu (each item marked as inside or outside the client's downtime limit) and the answers. It returns a top pick, an optional alternative, the reasons, and short summary labels. It can also raise a safety flag from the free text, for things the keyword check misses (in testing it caught "I just started a new prescription retinoid cream"). Results arrive in about 2 seconds.
+3. **Check the AI.** The pick must be on the menu (enforced by the schema) and must treat a concern the client ticked. If not, the rules answer instead. In testing, this caught the AI suggesting anti-wrinkle injections for lost volume.
+4. **Fallback.** With no key, or on any error, the rule-based scorer ranks treatments by concern, downtime and budget, and writes a templated explanation.
 
 The results page footer says which engine produced the match (Gemini or rules), which is useful when staff are testing.
 
