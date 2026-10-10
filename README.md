@@ -2,7 +2,7 @@
 
 A working prototype of an AI-powered triage quiz for **Glow Clinics**, a fictional med-spa. A prospective client answers five quick questions and gets one or two suggested treatments, with a short explanation, before booking a consultation.
 
-**Live demo:** _[add your Vercel URL]_
+**Live demo:** https://glow-clinics.vercel.app
 
 ---
 
