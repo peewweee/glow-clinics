@@ -74,7 +74,7 @@ export async function recommendWithAI(a: Answers): Promise<Recommendation> {
     temperature: 0.4,
     maxRetries: 0,
     // Keep "thinking" to a minimum: a quiz result should arrive in a few seconds.
-    providerOptions: { google: { thinkingConfig: { thinkingLevel: "minimal" } } },
+    providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } },
     abortSignal: AbortSignal.timeout(12000),
   });
 
