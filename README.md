@@ -37,7 +37,7 @@ The sales team spends the first five minutes of every consult call on basic tria
 |---|---|---|
 | App | Next.js (App Router) + TypeScript | One project for the pages and the API, and it deploys to Vercel with zero setup |
 | Styling | Tailwind CSS with the design-system tokens | Fast to build, and consistent with the design system |
-| AI | Google Gemini Flash (free tier) through the Vercel AI SDK | Costs nothing for a prototype. Switching to Claude or OpenAI is a one-line change |
+| AI | Google Gemini Flash-Lite (free tier) through the Vercel AI SDK | Costs nothing for a prototype. Switching to Claude or OpenAI is a one-line change |
 | Structured output | Zod schema; the AI must pick IDs from the treatment list | The AI can't invent treatments or prices. Its answer is checked before it's shown |
 | Fallback | Rule-based scorer | Works with no API key, and takes over automatically if the AI is slow, fails or hits its free-tier limit |
 | Data | Treatment menu in `lib/treatments.ts` | No database needed for a proof of concept |
@@ -78,7 +78,7 @@ Without a key the app runs on the built-in rules.
 
 ## Deploy
 
-Import the repo into Vercel and add `GOOGLE_GENERATIVE_AI_API_KEY` under Project → Settings → Environment Variables. Optionally set `GEMINI_MODEL` (default: `gemini-flash-latest`).
+Import the repo into Vercel and add `GOOGLE_GENERATIVE_AI_API_KEY` under Project → Settings → Environment Variables. Optionally set `GEMINI_MODEL` (default: `gemini-flash-lite-latest`).
 
 ## Project map
 

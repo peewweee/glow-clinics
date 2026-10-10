@@ -6,7 +6,9 @@ import { contextChips, withinDowntime } from "./rules";
 import { TREATMENTS } from "./treatments";
 import type { Answers, Recommendation } from "./types";
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
+// Flash-Lite: fast, free-tier, and plenty for picking from a short menu. Override with GEMINI_MODEL.
+const MODEL = process.env.GEMINI_MODEL || "gemini-flash-lite-latest";
+const THINKING = process.env.GEMINI_THINKING as "low" | "medium" | "high" | undefined;
 
 export const aiEnabled = () => Boolean(process.env.GOOGLE_GENERATIVE_AI_API_KEY);
 
@@ -73,8 +75,8 @@ export async function recommendWithAI(a: Answers): Promise<Recommendation> {
     output: Output.object({ schema }),
     temperature: 0.4,
     maxRetries: 0,
-    // Keep "thinking" to a minimum: a quiz result should arrive in a few seconds.
-    providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } },
+    // No extended "thinking" by default: a quiz result should arrive in a few seconds.
+    ...(THINKING ? { providerOptions: { google: { thinkingConfig: { thinkingLevel: THINKING } } } } : {}),
     abortSignal: AbortSignal.timeout(12000),
   });
 
