@@ -20,15 +20,12 @@ export default function TreatmentFinder() {
   const [result, setResult] = useState<Recommendation | null>(null);
   const [error, setError] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Move focus to the new question so keyboard and screen-reader users land in the right place.
   useEffect(() => {
     if (typeof stage === "number") headingRef.current?.focus();
     window.scrollTo({ top: 0 });
   }, [stage]);
-
-  useEffect(() => () => { if (advanceTimer.current) clearTimeout(advanceTimer.current); }, []);
 
   const set = <K extends keyof Answers>(k: K, v: Answers[K]) => setAnswers((a) => ({ ...a, [k]: v }));
 
@@ -67,13 +64,6 @@ export default function TreatmentFinder() {
   const back = () => {
     if (stage === 0) setStage("landing");
     else if (typeof stage === "number") setStage((stage - 1) as Stage);
-  };
-
-  // Single-choice questions advance on their own after a short pause.
-  const pickAndAdvance = (fn: () => void) => {
-    fn();
-    if (advanceTimer.current) clearTimeout(advanceTimer.current);
-    advanceTimer.current = setTimeout(() => setStage((s) => (typeof s === "number" && s < 4 ? ((s + 1) as Stage) : s)), 280);
   };
 
   if (stage === "landing") return <Landing onStart={() => setStage(0)} />;
@@ -202,12 +192,10 @@ export default function TreatmentFinder() {
               label={o.label}
               hint={o.hint}
               selected={picked.downtime && answers.downtime === o.id}
-              onClick={() =>
-                pickAndAdvance(() => {
+              onClick={() => {
                   set("downtime", o.id as DowntimeId);
                   setPicked((p) => ({ ...p, downtime: true }));
-                })
-              }
+              }}
             />
           ))}
         </div>
@@ -225,12 +213,10 @@ export default function TreatmentFinder() {
               label={o.label}
               hint={o.hint}
               selected={picked.budget && answers.budget === o.id}
-              onClick={() =>
-                pickAndAdvance(() => {
+              onClick={() => {
                   set("budget", o.id as BudgetId);
                   setPicked((p) => ({ ...p, budget: true }));
-                })
-              }
+              }}
             />
           ))}
         </div>
